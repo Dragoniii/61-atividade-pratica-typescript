@@ -204,7 +204,7 @@ class Produto {
 
     static removerProduto(nomeProduto: string): void {
         const indice = this.inventario.findIndex(produto => produto.nome === nomeProduto);
-        if (indice !== -1) { 
+        if (indice !== -1) {
             this.inventario.splice(indice, 1);
         } else {
             console.log("Produto não encontrado no inventário.");
@@ -233,17 +233,43 @@ console.log(`/////////////////////////////////////////`);
 
 exercicio = 5
 
+class User {
+    nome: string;
+    idade: number;
+    ocupacao: string;
+    salario: number | string
+
+    constructor(nome: string, idade: number, ocupacao: string, salario: number | string) {
+        this.nome = nome
+        this.idade = idade
+        this.ocupacao = ocupacao
+        this.salario = salario
+    }
+}
+
+const novoUser = new User("João", 30, "Engenheiro", "N/A")
+const newUser = new User("Joel", 31, "Desempregado", 2500)
+console.log(exercicio, novoUser, newUser);
+
 console.log(`/////////////////////////////////////////`);
 
-// 6. Usando o contexto do exercício 6, crie um tipo de usuário que
-// representa funcionários da diretoria da empresa. O tipo Diretor deve
-// conter as propriedades: nome, idade, salário (opcional) e nível de
-// comissionamento (numérico). Crie uma função que receba um
-// Diretor e mostre suas informações. Exemplos:
+// 6. Usando o contexto do exercício 6, crie um tipo de usuário que representa funcionários da diretoria da empresa. O tipo Diretor deve conter as propriedades: nome, idade, salário (opcional) e nível de comissionamento (numérico). Crie uma função que receba um Diretor e mostre suas informações. Exemplos:
 // a. “Diretor(a) Daphne, 23 anos, comissão nível 5, salário R$ 1000”
 // b. “Diretor(a) Daphne, 23 anos, comissão nível 5, salário N/A”
 
 exercicio = 6
+
+class Diretoria extends User {
+    comissao: number;
+    constructor(nome: string, idade: number, ocupacao: string, salario: number | string, comissao: number) {
+        super(nome, idade, ocupacao, salario)
+        this.comissao = comissao
+    }
+}
+
+const novoDir = new Diretoria("João", 30, "Engenheiro", "N/A", 2)
+const newDir = new Diretoria("Joel", 31, "Desempregado", 2500, 4)
+console.log(exercicio, novoDir, newDir);
 
 console.log(`/////////////////////////////////////////`);
 
@@ -251,4 +277,59 @@ console.log(`/////////////////////////////////////////`);
 //a. O mesmo que o exercício 5, em caso de objeto User. 
 //b. O mesmo que o exercício 6, em caso de objeto Diretor.
 
-exercicio = 7
+// Exercise 5 alternative version
+
+
+class Employee {
+    constructor(
+        public name: string,
+        public age: number,
+        public role: string,
+        public salary: number | 'N/A' = 'N/A'
+    ) {}
+
+    displayInfo(): string {
+        return `${this.name}, ${this.age} years old, ${this.role}, salary: ${this.salary}`;
+    }
+}
+
+const employee1 = new Employee("Alice", 28, "Software Developer", 3000);
+const employee2 = new Employee("Bob", 34, "Project Manager");
+console.log(5, employee1.displayInfo(), employee2.displayInfo());
+
+console.log(`/////////////////////////////////////////`);
+
+// Exercise 6 alternative version
+class Executive extends Employee {
+    constructor(
+        name: string,
+        age: number,
+        role: string,
+        salary: number | 'N/A' = 'N/A',
+        public commissionLevel: number
+    ) {
+        super(name, age, role, salary);
+    }
+
+    displayInfo(): string {
+        return `Executive ${this.name}, ${this.age} years old, commission level ${this.commissionLevel}, salary: ${this.salary}`;
+    }
+}
+
+const executive1 = new Executive("Charlie", 40, "CTO", 5000, 3);
+const executive2 = new Executive("Dana", 37, "CFO", 'N/A', 4);
+console.log(6, executive1.displayInfo(), executive2.displayInfo());
+
+console.log(`/////////////////////////////////////////`);
+
+// Exercise 7 alternative version
+type Staff = Employee | Executive;
+
+function displayStaffInfo(staffList: Staff[]): void {
+    staffList.forEach(staff => {
+        console.log(staff.displayInfo());
+    });
+}
+
+const staffList: Staff[] = [employee1, employee2, executive1, executive2];
+displayStaffInfo(staffList);
